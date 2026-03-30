@@ -2,28 +2,92 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>John | Dev Portfolio</title>
     <style>
+        :root {
+            --bg: #0d1117;
+            --card-bg: #161b22;
+            --text: #c9d1d9;
+            --main-color: #238636; /* Verde GitHub */
+            --border: #30363d;
+        }
+
         body { 
-            background-color: #0d1117; 
-            color: #c9d1d9; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; margin: 0;
+            background-color: var(--bg); 
+            color: var(--text); 
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0; padding: 40px 20px;
+            display: flex; flex-direction: column; align-items: center;
         }
-        h1 { color: #238636; border-bottom: 2px solid #238636; }
+
+        .profile-img {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--main-color);
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(35, 134, 54, 0.3);
+        }
+
+        h1 { margin: 10px 0; color: #ffffff; }
+        .subtitle { color: var(--main-color); font-weight: bold; margin-bottom: 30px; }
+
+        .container {
+            max-width: 800px; width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
         .card { 
-            background: #161b22; padding: 20px; border-radius: 10px; 
-            border: 1px solid #30363d; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            background: var(--card-bg); 
+            padding: 25px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
-        p { font-size: 1.2rem; }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--main-color);
+        }
+
+        .card h3 { margin-top: 0; color: var(--main-color); }
+        
+        .btn {
+            margin-top: 40px;
+            padding: 10px 25px;
+            background-color: var(--main-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Hola, soy John</h1>
-        <p>Bienvenido a mi espacio en GitHub</p>
-        <small>Página desplegada automáticamente con GitHub Pages</small>
+
+    <img src="https://github.com/Johnsito-out.png" alt="John" class="profile-img">
+
+    <h1>John (Johnsito-out)</h1>
+    <p class="subtitle">Desarrollador Agil & Especialista en Bases de Datos</p>
+
+    <div class="container">
+        <div class="card">
+            <h3>📂 Proyectos</h3>
+            <p>Aquí mostraré mis repositorios más importantes y aplicaciones desplegadas.</p>
+        </div>
+        <div class="card">
+            <h3>📊 Bases de Datos</h3>
+            <p>Diseño de esquemas, optimización de queries y gestión de datos relacionales.</p>
+        </div>
+        <div class="card">
+            <h3>🚀 Habilidades</h3>
+            <p>Git, GitHub, Automatización y resolución ágil de problemas técnicos.</p>
+        </div>
     </div>
+
+    <a href="https://github.com/Johnsito-out" class="btn">Visitar mi GitHub</a>
+
 </body>
 </html>
