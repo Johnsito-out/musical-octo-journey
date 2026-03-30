@@ -6,7 +6,7 @@
     <title>John | Portfolio Creativo</title>
     <style>
         /* RESET & BASE */
-        * { margin: 0; padding: 0; box-box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } /* Corregido box-sizing */
         body { 
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
             background-color: #ffffff; color: #1a1a1a; line-height: 1.6;
@@ -21,7 +21,15 @@
         }
         nav .logo { font-weight: bold; font-size: 1.2rem; letter-spacing: 2px; }
         nav ul { list-style: none; display: flex; gap: 30px; }
-        nav ul li a { text-decoration: none; color: #1a1a1a; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        nav ul li a { 
+            text-decoration: none; 
+            color: #1a1a1a; 
+            font-size: 0.8rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover { color: #238636; } /* Color verde al pasar el mouse */
 
         /* HERO SECTION */
         header {
@@ -47,9 +55,9 @@
             overflow: hidden;
             background: #eee;
             aspect-ratio: 16 / 10;
+            cursor: pointer;
         }
 
-        /* Imagen placeholder (luego puedes cambiar el link por tus fotos) */
         .project-card img {
             width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.5s ease;
@@ -62,15 +70,17 @@
         /* CAPA DE TEXTO AL PASAR EL MOUSE */
         .overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.6); /* Un poco más oscuro para mejor lectura */
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             opacity: 0; transition: opacity 0.3s ease;
             color: white;
+            text-align: center;
+            padding: 20px;
         }
 
         .project-card:hover .overlay { opacity: 1; }
         .overlay h3 { font-size: 1.5rem; margin-bottom: 5px; }
-        .overlay p { font-size: 0.9rem; text-transform: uppercase; }
+        .overlay p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
 
         /* FOOTER */
         footer {
@@ -88,10 +98,10 @@
     <nav>
         <div class="logo">JOHN / DEV</div>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">sobre-mi.html</a></li>
-            <li><a href="#">portfolio.html</a></li>
-            <li><a href="#">contacto.html</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="sobre-mi.html">Sobre mí</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
         </ul>
     </nav>
 
@@ -101,7 +111,7 @@
     </header>
 
     <section class="portfolio-grid">
-        <div class="project-card">
+        <div class="project-card" onclick="window.location.href='portfolio.html'">
             <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500" alt="Proyecto 1">
             <div class="overlay">
                 <h3>Base de Datos SQL</h3>
@@ -109,7 +119,7 @@
             </div>
         </div>
 
-        <div class="project-card">
+        <div class="project-card" onclick="window.location.href='portfolio.html'">
             <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=500" alt="Proyecto 2">
             <div class="overlay">
                 <h3>Desarrollo Web</h3>
@@ -117,7 +127,7 @@
             </div>
         </div>
 
-        <div class="project-card">
+        <div class="project-card" onclick="window.location.href='portfolio.html'">
             <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=500" alt="Proyecto 3">
             <div class="overlay">
                 <h3>Scripts Agiles</h3>
@@ -127,7 +137,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2024 John - Todos los derechos reservados.</p>
+        <p>&copy; 2026 John (Johnsito-out). Todos los derechos reservados.</p>
     </footer>
 
 </body>
