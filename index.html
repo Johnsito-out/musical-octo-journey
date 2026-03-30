@@ -3,98 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>John | Portfolio Creativo</title>
+    <title>John | Home</title>
     <style>
-        /* RESET & BASE */
-        * { margin: 0; padding: 0; box-sizing: border-box; } /* Corregido box-sizing */
-        body { 
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-            background-color: #ffffff; color: #1a1a1a; line-height: 1.6;
-        }
-
-        /* NAVEGACIÓN (Estilo Chrisviprods) */
-        nav {
-            padding: 20px 50px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #f0f0f0;
-            position: sticky; top: 0; background: white; z-index: 1000;
-        }
-        nav .logo { font-weight: bold; font-size: 1.2rem; letter-spacing: 2px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #1a1a1a; line-height: 1.6; }
+        nav { padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; background: white; z-index: 1000; }
+        .logo { font-weight: bold; letter-spacing: 2px; }
         nav ul { list-style: none; display: flex; gap: 30px; }
-        nav ul li a { 
-            text-decoration: none; 
-            color: #1a1a1a; 
-            font-size: 0.8rem; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            transition: color 0.3s;
-        }
-        nav ul li a:hover { color: #238636; } /* Color verde al pasar el mouse */
-
-        /* HERO SECTION */
-        header {
-            padding: 100px 20px;
-            text-align: center;
-            background-color: #fafafa;
-        }
-        header h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 300; }
-        header p { color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
-
-        /* GRID DE PORTFOLIO */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            padding: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .project-card {
-            position: relative;
-            overflow: hidden;
-            background: #eee;
-            aspect-ratio: 16 / 10;
-            cursor: pointer;
-        }
-
-        .project-card img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .project-card:hover img {
-            transform: scale(1.05);
-        }
-
-        /* CAPA DE TEXTO AL PASAR EL MOUSE */
-        .overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); /* Un poco más oscuro para mejor lectura */
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
+        nav ul li a { text-decoration: none; color: #1a1a1a; font-size: 0.8rem; text-transform: uppercase; transition: 0.3s; }
+        nav ul li a:hover { color: #238636; }
+        header { padding: 100px 20px; text-align: center; background: #fafafa; }
+        header h1 { font-size: 3rem; font-weight: 300; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; padding: 40px; max-width: 1400px; margin: 0 auto; }
+        .project-card { position: relative; overflow: hidden; aspect-ratio: 16/10; cursor: pointer; background: #eee; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .project-card:hover img { transform: scale(1.05); }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; color: white; }
         .project-card:hover .overlay { opacity: 1; }
-        .overlay h3 { font-size: 1.5rem; margin-bottom: 5px; }
-        .overlay p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* FOOTER */
-        footer {
-            padding: 50px;
-            text-align: center;
-            border-top: 1px solid #f0f0f0;
-            margin-top: 40px;
-            font-size: 0.8rem;
-            color: #999;
-        }
+        footer { padding: 50px; text-align: center; border-top: 1px solid #f0f0f0; color: #999; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-
     <nav>
         <div class="logo">JOHN / DEV</div>
         <ul>
@@ -104,41 +33,16 @@
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
     </nav>
-
     <header>
         <h1>Mi Portfolio Creativo</h1>
-        <p>Programador ágil y especialista en soluciones de bases de datos. Desarrollando ideas con pasión desde el código.</p>
+        <p>Programador ágil y especialista en bases de datos.</p>
     </header>
-
     <section class="portfolio-grid">
         <div class="project-card" onclick="window.location.href='portfolio.html'">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500" alt="Proyecto 1">
-            <div class="overlay">
-                <h3>Base de Datos SQL</h3>
-                <p>Optimización & Arquitectura</p>
-            </div>
-        </div>
-
-        <div class="project-card" onclick="window.location.href='portfolio.html'">
-            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=500" alt="Proyecto 2">
-            <div class="overlay">
-                <h3>Desarrollo Web</h3>
-                <p>Interfaces Modernas</p>
-            </div>
-        </div>
-
-        <div class="project-card" onclick="window.location.href='portfolio.html'">
-            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=500" alt="Proyecto 3">
-            <div class="overlay">
-                <h3>Scripts Agiles</h3>
-                <p>Python & Automatización</p>
-            </div>
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500">
+            <div class="overlay"><h3>Ver Proyectos</h3><p>Click para explorar</p></div>
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2026 John (Johnsito-out). Todos los derechos reservados.</p>
-    </footer>
-
+    <footer><p>&copy; 2026 John - musical-octo-journey</p></footer>
 </body>
 </html>
