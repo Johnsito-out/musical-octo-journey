@@ -3,91 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>John | Dev Portfolio</title>
+    <title>John | Portfolio Creativo</title>
     <style>
-        :root {
-            --bg: #0d1117;
-            --card-bg: #161b22;
-            --text: #c9d1d9;
-            --main-color: #238636; /* Verde GitHub */
-            --border: #30363d;
-        }
-
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-box-sizing: border-box; }
         body { 
-            background-color: var(--bg); 
-            color: var(--text); 
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            margin: 0; padding: 40px 20px;
-            display: flex; flex-direction: column; align-items: center;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            background-color: #ffffff; color: #1a1a1a; line-height: 1.6;
         }
 
-        .profile-img {
-            width: 120px; height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--main-color);
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(35, 134, 54, 0.3);
+        /* NAVEGACIÓN (Estilo Chrisviprods) */
+        nav {
+            padding: 20px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            position: sticky; top: 0; background: white; z-index: 1000;
         }
+        nav .logo { font-weight: bold; font-size: 1.2rem; letter-spacing: 2px; }
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        nav ul li a { text-decoration: none; color: #1a1a1a; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        h1 { margin: 10px 0; color: #ffffff; }
-        .subtitle { color: var(--main-color); font-weight: bold; margin-bottom: 30px; }
+        /* HERO SECTION */
+        header {
+            padding: 100px 20px;
+            text-align: center;
+            background-color: #fafafa;
+        }
+        header h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 300; }
+        header p { color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
-        .container {
-            max-width: 800px; width: 100%;
+        /* GRID DE PORTFOLIO */
+        .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 20px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .card { 
-            background: var(--card-bg); 
-            padding: 25px; 
-            border-radius: 12px; 
-            border: 1px solid var(--border);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            background: #eee;
+            aspect-ratio: 16 / 10;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--main-color);
+        /* Imagen placeholder (luego puedes cambiar el link por tus fotos) */
+        .project-card img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease;
         }
 
-        .card h3 { margin-top: 0; color: var(--main-color); }
-        
-        .btn {
-            margin-top: 40px;
-            padding: 10px 25px;
-            background-color: var(--main-color);
+        .project-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* CAPA DE TEXTO AL PASAR EL MOUSE */
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
             color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
+        }
+
+        .project-card:hover .overlay { opacity: 1; }
+        .overlay h3 { font-size: 1.5rem; margin-bottom: 5px; }
+        .overlay p { font-size: 0.9rem; text-transform: uppercase; }
+
+        /* FOOTER */
+        footer {
+            padding: 50px;
+            text-align: center;
+            border-top: 1px solid #f0f0f0;
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #999;
         }
     </style>
 </head>
 <body>
 
-    <img src="https://github.com/Johnsito-out.png" alt="John" class="profile-img">
+    <nav>
+        <div class="logo">JOHN / DEV</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Sobre mí</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </nav>
 
-    <h1>John (Johnsito-out)</h1>
-    <p class="subtitle">Desarrollador Agil & Especialista en Bases de Datos</p>
+    <header>
+        <h1>Mi Portfolio Creativo</h1>
+        <p>Programador ágil y especialista en soluciones de bases de datos. Desarrollando ideas con pasión desde el código.</p>
+    </header>
 
-    <div class="container">
-        <div class="card">
-            <h3>📂 Proyectos</h3>
-            <p>Aquí mostraré mis repositorios más importantes y aplicaciones desplegadas.</p>
+    <section class="portfolio-grid">
+        <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500" alt="Proyecto 1">
+            <div class="overlay">
+                <h3>Base de Datos SQL</h3>
+                <p>Optimización & Arquitectura</p>
+            </div>
         </div>
-        <div class="card">
-            <h3>📊 Bases de Datos</h3>
-            <p>Diseño de esquemas, optimización de queries y gestión de datos relacionales.</p>
-        </div>
-        <div class="card">
-            <h3>🚀 Habilidades</h3>
-            <p>Git, GitHub, Automatización y resolución ágil de problemas técnicos.</p>
-        </div>
-    </div>
 
-    <a href="https://github.com/Johnsito-out" class="btn">Visitar mi GitHub</a>
+        <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=500" alt="Proyecto 2">
+            <div class="overlay">
+                <h3>Desarrollo Web</h3>
+                <p>Interfaces Modernas</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=500" alt="Proyecto 3">
+            <div class="overlay">
+                <h3>Scripts Agiles</h3>
+                <p>Python & Automatización</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 John - Todos los derechos reservados.</p>
+    </footer>
 
 </body>
 </html>
