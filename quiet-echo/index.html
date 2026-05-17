@@ -1,1 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Día 1 // quiet-echo</title>
+    <style>
+        /* ==========================================
+           1. CONFIGURACIÓN DE COLORES Y VARIABLES
+           (Mantiene la misma identidad del Día 0)
+           ========================================== */
+        :root {
+            --bg-color: #08080c;       
+            --text-main: #f0f0f5;      
+            --text-muted: #66667e;     
+            --accent-glow: rgba(168, 85, 247, 0.4); 
+            --font-family: 'Courier New', Courier, monospace; 
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: var(--font-family);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        /* ==========================================
+           2. CONTENEDORES Y ESTRUCTURA
+           ========================================== */
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            animation: fadeInScreen 3.5s ease-out forwards;
+        }
+
+        /* Bloques de contenido transicional */
+        .fade-step {
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-step.hidden {
+            opacity: 0;
+            transform: translateY(-15px);
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            left: 0;
+        }
+
+        .fade-step.init-hidden {
+            opacity: 0;
+            transform: translateY(15px);
+            pointer-events: none;
+        }
+
+        .fade-step.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Textos Narrativos */
+        .narrative-text {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            line-height: 1.8;
+            letter-spacing: 0.15em;
+            margin-bottom: 45px;
+            font-weight: 300;
+            text-shadow: 0 0 10px rgba(240, 240, 245, 0.3);
+        }
+
+        /* Interacción / Formulario */
+        .interaction-box {
+            margin-top: 30px;
+        }
+
+        .question-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            display: block;
+            margin-bottom: 25px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Input elegante y minimalista */
+        .custom-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--text-muted);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            font-size: 1rem;
+            padding: 8px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
