@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Día 1 // quiet-echo</title>
+    
+    <link rel="stylesheet" href="../assets/style.css">
+
     <style>
         /* ==========================================
-           1. CONFIGURACIÓN DE COLORES Y VARIABLES
-           (Mantiene la misma identidad del Día 0)
+           CONFIGURACIÓN DE COLORES Y VARIABLES
            ========================================== */
         :root {
             --bg-color: #08080c;       
@@ -48,7 +50,7 @@
         }
 
         /* ==========================================
-           2. CONTENEDORES Y ESTRUCTURA
+           ESTRUCTURA DE TRANSICIONES NARRATIVAS
            ========================================== */
         .container {
             position: relative;
@@ -60,7 +62,6 @@
             animation: fadeInScreen 3.5s ease-out forwards;
         }
 
-        /* Bloques de contenido transicional */
         .fade-step {
             transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
             opacity: 1;
@@ -88,7 +89,6 @@
             pointer-events: auto;
         }
 
-        /* Textos Narrativos */
         .narrative-text {
             font-size: 1.1rem;
             color: var(--text-main);
@@ -99,7 +99,16 @@
             text-shadow: 0 0 10px rgba(240, 240, 245, 0.3);
         }
 
-        /* Interacción / Formulario */
+        /* Contenedores de imágenes (listas para usar ../assets/images/) */
+        .narrative-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 30px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         .interaction-box {
             margin-top: 30px;
         }
@@ -119,7 +128,6 @@
             gap: 20px;
         }
 
-        /* Input elegante y minimalista */
         .custom-input {
             background: transparent;
             border: none;
@@ -131,3 +139,13 @@
             width: 80%;
             max-width: 300px;
             text-align: center;
+            outline: none;
+            letter-spacing: 0.1em;
+            transition: border-color 0.5s, box-shadow 0.5s;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .custom-input:focus {
+            border-bottom: 1px solid var(--text-main);
+            box-shadow: 0 1px 10px rgba(240, 24
