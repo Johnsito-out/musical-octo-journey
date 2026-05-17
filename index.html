@@ -1,69 +1,283 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Ti ❤️</title>
+    <title>Día 0 // Inicio de Transmisión</title>
     <style>
-        /* Fondo de la página */
-        body {
+        /* ==========================================
+           1. CONFIGURACIÓN DE COLORES Y VARIABLES
+           Modifica los colores aquí para cambiar la atmósfera.
+           ========================================== */
+        :root {
+            --bg-color: #08080c;       /* Fondo oscuro profundo */
+            --text-main: #f0f0f5;      /* Blanco roto/plateado para el texto */
+            --text-muted: #66667e;     /* Gris apagado para textos secundarios */
+            --accent-glow: rgba(168, 85, 247, 0.4); /* Brillo sutil (púrpura/misterio) */
+            --font-family: 'Courier New', Courier, monospace; /* Estilo terminal/misterio */
+        }
+
+        /* Reset básico y comportamiento de la pantalla */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            user-select: none; /* Evita que se seleccione el texto sin querer */
+            -webkit-user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: var(--font-family);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #ffe3e3; /* Un rosa pastel suave */
-            overflow: hidden;
         }
 
-        /* Contenedor del corazón */
-        .heart {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            background-color: #ff3838; /* Rojo vibrante */
-            transform: rotate(-45deg);
-            animation: beat 0.6s infinite alternate; /* Hace que palpite */
-            box-shadow: 0 0 40px #ff3838;
-        }
-
-        /* Partes redondeadas del corazón */
-        .heart:before,
-        .heart:after {
-            content: "";
+        /* Canvas para el efecto de partículas sutiles de fondo */
+        canvas {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            background-color: #ff3838;
-            border-radius: 50%;
-        }
-
-        .heart:before {
-            top: -50px;
-            left: 0;
-        }
-
-        .heart:after {
             top: 0;
-            left: 50px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.4; /* Opacidad del ruido/partículas */
         }
 
-        /* Animación del latido */
-        @keyframes beat {
-            0% {
-                transform: rotate(-45deg) scale(1);
+        /* ==========================================
+           2. CONTENEDOR PRINCIPAL Y ANIMACIONES
+           ========================================== */
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            /* Animación de entrada suave (Fade In) */
+            animation: fadeInScreen 3.5s ease-out forwards;
+        }
+
+        /* Frase principal */
+        .narrative-text {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            line-height: 1.8;
+            letter-spacing: 0.15em;
+            margin-bottom: 60px;
+            font-weight: 300;
+            /* Efecto de brillo de transmisión */
+            text-shadow: 0 0 10px rgba(240, 240, 245, 0.3);
+        }
+
+        /* Bloque del contador */
+        .countdown-box {
+            margin-bottom: 80px;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .timer {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            letter-spacing: 0.2em;
+            font-weight: bold;
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* ==========================================
+           3. SÍMBOLO RECURRENTE (NÚCLEO)
+           ========================================== */
+        .symbol-container {
+            position: absolute;
+            bottom: -100px; /* Separado del texto */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .symbol {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            cursor: default;
+            /* Animación de pulsación (corazón/señal) */
+            animation: pulseSignal 3s infinite ease-in-out;
+            text-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* ==========================================
+           4. KEYFRAMES (ANIMACIONES CSS)
+           ========================================== */
+        @keyframes fadeInScreen {
+            0% { opacity: 0; transform: scale(0.99); filter: blur(3px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+        }
+
+        @keyframes pulseSignal {
+            0% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.9; color: var(--text-main); }
+            100% { transform: scale(1); opacity: 0.3; }
+        }
+
+        /* Adaptación para pantallas móviles */
+        @media (max-width: 768px) {
+            .narrative-text {
+                font-size: 0.95rem;
+                padding: 0 15px;
             }
-            100% {
-                transform: rotate(-45deg) scale(1.25); /* Se agranda un 25% */
+            .timer {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="heart"></div>
+    <canvas id="ambientCanvas"></canvas>
 
+    <div class="container">
+        <p class="narrative-text">
+            Todo esto conduce a algo.<br>
+            Todavía no necesitas saber a qué.
+        </p>
+
+        <div class="countdown-box">
+            <span class="countdown-label">next signal in:</span>
+            <div id="countdown" class="timer">24:00:00</div>
+        </div>
+
+        <div class="symbol-container">
+            <div class="symbol">◉</div>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================
+           5. LÓGICA DE LA CUENTA REGRESIVA (PERSISTENTE)
+           ========================================== */
+        
+        // TIEMPO DE DURACIÓN: Configurado a 24 horas (en milisegundos)
+        // Si quieres probarlo con 10 segundos para ver qué pasa al terminar, pon: 10 * 1000
+        const COUNTDOWN_DURATION = 24 * 60 * 60 * 1000; 
+
+        function initCountdown() {
+            const timerElement = document.getElementById('countdown');
+            
+            // Intentar recuperar la hora de inicio guardada en el navegador de la otra persona
+            let startTime = localStorage.getItem('dia0_start_time');
+
+            if (!startTime) {
+                // Si es la primera vez que abre la web, registramos el momento exacto actual
+                startTime = new Date().getTime();
+                localStorage.setItem('dia0_start_time', startTime);
+            }
+
+            // Calcular el momento exacto en el que debe expirar (Inicio + 24 horas)
+            const targetTime = parseInt(startTime, 10) + COUNTDOWN_DURATION;
+
+            function updateTimer() {
+                const now = new Date().getTime();
+                const distance = targetTime - now;
+
+                // Si el tiempo terminó
+                if (distance <= 0) {
+                    clearInterval(intervalId);
+                    timerElement.innerHTML = "00:00:00";
+                    timerElement.style.color = "var(--text-muted)";
+                    
+                    // ACCIÓN AL TERMINAR: Puedes dejar un mensaje o redirigir automáticamente al Día 1 desmarcando la línea de abajo:
+                    // window.location.href = "https://tu-usuario.github.io/tu-repositorio/dia1/";
+                    return;
+                }
+
+                // Cálculo de horas, minutos y segundos restantes
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Formato de dos dígitos constante (00:00:00)
+                const formattedHours = String(hours).padStart(2, '0');
+                const formattedMinutes = String(minutes).padStart(2, '0');
+                const formattedSeconds = String(seconds).padStart(2, '0');
+
+                timerElement.innerHTML = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+            }
+
+            // Ejecutar inmediatamente y luego actualizar cada segundo
+            updateTimer();
+            const intervalId = setInterval(updateTimer, 1000);
+        }
+
+
+        /* ==========================================
+           6. EFECTO VISUAL: PARTÍCULAS AMBIENTALES LENTAS
+           Crea una atmósfera cinemática sin usar imágenes pesadas.
+           ========================================== */
+        function initAmbientParticles() {
+            const canvas = document.getElementById('ambientCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            // Crear partículas flotantes
+            const particleCount = 40; 
+            for(let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.2 + 0.3,
+                    speedY: -(Math.random() * 0.2 + 0.05), // Movimiento lento hacia arriba
+                    opacity: Math.random() * 0.5 + 0.1
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(240, 240, 245,';
+
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(240, 240, 245, ${p.opacity})`;
+                    ctx.fill();
+
+                    // Mover partícula
+                    p.y += p.speedY;
+
+                    // Si se sale de la pantalla por arriba, reaparece abajo
+                    if (p.y < 0) {
+                        p.y = canvas.height;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // Lanzar funciones al cargar la página
+        window.onload = () => {
+            initCountdown();
+            initAmbientParticles();
+        };
+    </script>
 </body>
 </html>
