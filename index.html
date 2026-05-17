@@ -1,1 +1,69 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti ❤️</title>
+    <style>
+        /* Fondo de la página */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe3e3; /* Un rosa pastel suave */
+            overflow: hidden;
+        }
+
+        /* Contenedor del corazón */
+        .heart {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background-color: #ff3838; /* Rojo vibrante */
+            transform: rotate(-45deg);
+            animation: beat 0.6s infinite alternate; /* Hace que palpite */
+            box-shadow: 0 0 40px #ff3838;
+        }
+
+        /* Partes redondeadas del corazón */
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #ff3838;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -50px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: 50px;
+        }
+
+        /* Animación del latido */
+        @keyframes beat {
+            0% {
+                transform: rotate(-45deg) scale(1);
+            }
+            100% {
+                transform: rotate(-45deg) scale(1.25); /* Se agranda un 25% */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart"></div>
+
+</body>
+</html>
