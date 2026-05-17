@@ -4,25 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Día 0 // Inicio de Transmisión</title>
+    
+    <link rel="stylesheet" href="assets/style.css">
+
     <style>
         /* ==========================================
-           1. CONFIGURACIÓN DE COLORES Y VARIABLES
-           Modifica los colores aquí para cambiar la atmósfera.
+           CONFIGURACIÓN DE COLORES Y VARIABLES
            ========================================== */
         :root {
-            --bg-color: #08080c;       /* Fondo oscuro profundo */
-            --text-main: #f0f0f5;      /* Blanco roto/plateado para el texto */
-            --text-muted: #66667e;     /* Gris apagado para textos secundarios */
-            --accent-glow: rgba(168, 85, 247, 0.4); /* Brillo sutil (púrpura/misterio) */
-            --font-family: 'Courier New', Courier, monospace; /* Estilo terminal/misterio */
+            --bg-color: #08080c;       
+            --text-main: #f0f0f5;      
+            --text-muted: #66667e;     
+            --accent-glow: rgba(168, 85, 247, 0.4); 
+            --font-family: 'Courier New', Courier, monospace; 
         }
 
-        /* Reset básico y comportamiento de la pantalla */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            user-select: none; /* Evita que se seleccione el texto sin querer */
+            user-select: none; 
             -webkit-user-select: none;
         }
 
@@ -37,7 +38,6 @@
             align-items: center;
         }
 
-        /* Canvas para el efecto de partículas sutiles de fondo */
         canvas {
             position: absolute;
             top: 0;
@@ -46,11 +46,11 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.4; /* Opacidad del ruido/partículas */
+            opacity: 0.4; 
         }
 
         /* ==========================================
-           2. CONTENEDOR PRINCIPAL Y ANIMACIONES
+           CONTENEDOR PRINCIPAL Y ANIMACIONES
            ========================================== */
         .container {
             position: relative;
@@ -59,11 +59,9 @@
             padding: 20px;
             max-width: 600px;
             width: 100%;
-            /* Animación de entrada suave (Fade In) */
             animation: fadeInScreen 3.5s ease-out forwards;
         }
 
-        /* Frase principal */
         .narrative-text {
             font-size: 1.1rem;
             color: var(--text-main);
@@ -71,13 +69,11 @@
             letter-spacing: 0.15em;
             margin-bottom: 60px;
             font-weight: 300;
-            /* Efecto de brillo de transmisión */
             text-shadow: 0 0 10px rgba(240, 240, 245, 0.3);
         }
 
-        /* Bloque del contador */
         .countdown-box {
-            margin-bottom: 80px;
+            margin-bottom: 40px; 
         }
 
         .countdown-label {
@@ -97,12 +93,34 @@
             text-shadow: 0 0 15px var(--accent-glow);
         }
 
-        /* ==========================================
-           3. SÍMBOLO RECURRENTE (NÚCLEO)
-           ========================================== */
+        /* Estilo para la dedicatoria */
+        .dedication {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.25em;
+            text-transform: lowercase; 
+            margin-bottom: 10px; /* Reducido para dar espacio al creador */
+            display: block;
+            text-shadow: 0 0 8px rgba(240, 240, 245, 0.1);
+            animation: pulseText 4s infinite ease-in-out;
+        }
+
+        /* Estilo para el crédito de creador (johnsalchicon) */
+        .creator {
+            font-size: 0.65rem;
+            color: #44445c; /* Un tono más oscuro y discreto */
+            letter-spacing: 0.2em;
+            margin-bottom: 60px;
+            display: block;
+            font-weight: 300;
+            animation: pulseText 4s infinite ease-in-out;
+            animation-delay: 1s; /* Desfase para que parpadee alternado */
+        }
+
+        /* SÍMBOLO RECURRENTE (CORAZÓN) */
         .symbol-container {
             position: absolute;
-            bottom: -100px; /* Separado del texto */
+            bottom: -100px; 
             left: 50%;
             transform: translateX(-50%);
         }
@@ -110,15 +128,10 @@
         .symbol {
             font-size: 1.2rem;
             color: var(--text-muted);
-            cursor: default;
-            /* Animación de pulsación (corazón/señal) */
             animation: pulseSignal 3s infinite ease-in-out;
             text-shadow: 0 0 8px var(--accent-glow);
         }
 
-        /* ==========================================
-           4. KEYFRAMES (ANIMACIONES CSS)
-           ========================================== */
         @keyframes fadeInScreen {
             0% { opacity: 0; transform: scale(0.99); filter: blur(3px); }
             100% { opacity: 1; transform: scale(1); filter: blur(0); }
@@ -130,7 +143,12 @@
             100% { transform: scale(1); opacity: 0.3; }
         }
 
-        /* Adaptación para pantallas móviles */
+        @keyframes pulseText {
+            0% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.4; }
+        }
+
         @media (max-width: 768px) {
             .narrative-text {
                 font-size: 0.95rem;
@@ -138,6 +156,13 @@
             }
             .timer {
                 font-size: 1.5rem;
+            }
+            .dedication {
+                font-size: 0.75rem;
+                letter-spacing: 0.2em;
+            }
+            .creator {
+                font-size: 0.6rem;
             }
         }
     </style>
@@ -153,60 +178,51 @@
         </p>
 
         <div class="countdown-box">
-            <span class="countdown-label">Siguente Señal en:</span>
+            <span class="countdown-label">next signal in:</span>
             <div id="countdown" class="timer">24:00:00</div>
         </div>
 
+        <span class="dedication">Para Blanca Almohalla</span>
+        
+        <span class="creator">señal creada por johnsalchichon</span>
+
         <div class="symbol-container">
-            <div class="symbol">◉</div>
+            <div class="symbol">❤</div>
         </div>
     </div>
 
     <script>
         /* ==========================================
-           5. LÓGICA DE LA CUENTA REGRESIVA (PERSISTENTE)
+           LÓGICA DE LA CUENTA REGRESIVA PERSISTENTE
            ========================================== */
-        
-        // TIEMPO DE DURACIÓN: Configurado a 24 horas (en milisegundos)
-        // Si quieres probarlo con 10 segundos para ver qué pasa al terminar, pon: 10 * 1000
         const COUNTDOWN_DURATION = 24 * 60 * 60 * 1000; 
 
         function initCountdown() {
             const timerElement = document.getElementById('countdown');
-            
-            // Intentar recuperar la hora de inicio guardada en el navegador de la otra persona
             let startTime = localStorage.getItem('dia0_start_time');
 
             if (!startTime) {
-                // Si es la primera vez que abre la web, registramos el momento exacto actual
                 startTime = new Date().getTime();
                 localStorage.setItem('dia0_start_time', startTime);
             }
 
-            // Calcular el momento exacto en el que debe expirar (Inicio + 24 horas)
             const targetTime = parseInt(startTime, 10) + COUNTDOWN_DURATION;
 
             function updateTimer() {
                 const now = new Date().getTime();
                 const distance = targetTime - now;
 
-                // Si el tiempo terminó
                 if (distance <= 0) {
                     clearInterval(intervalId);
                     timerElement.innerHTML = "00:00:00";
                     timerElement.style.color = "var(--text-muted)";
-                    
-                    // ACCIÓN AL TERMINAR: Puedes dejar un mensaje o redirigir automáticamente al Día 1 desmarcando la línea de abajo:
-                    // window.location.href = "https://tu-usuario.github.io/tu-repositorio/dia1/";
                     return;
                 }
 
-                // Cálculo de horas, minutos y segundos restantes
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                // Formato de dos dígitos constante (00:00:00)
                 const formattedHours = String(hours).padStart(2, '0');
                 const formattedMinutes = String(minutes).padStart(2, '0');
                 const formattedSeconds = String(seconds).padStart(2, '0');
@@ -214,15 +230,12 @@
                 timerElement.innerHTML = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
             }
 
-            // Ejecutar inmediatamente y luego actualizar cada segundo
             updateTimer();
             const intervalId = setInterval(updateTimer, 1000);
         }
 
-
         /* ==========================================
-           6. EFECTO VISUAL: PARTÍCULAS AMBIENTALES LENTAS
-           Crea una atmósfera cinemática sin usar imágenes pesadas.
+           EFECTO VISUAL: PARTÍCULAS AMBIENTALES
            ========================================== */
         function initAmbientParticles() {
             const canvas = document.getElementById('ambientCanvas');
@@ -236,32 +249,27 @@
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
 
-            // Crear partículas flotantes
             const particleCount = 40; 
             for(let i = 0; i < particleCount; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     radius: Math.random() * 1.2 + 0.3,
-                    speedY: -(Math.random() * 0.2 + 0.05), // Movimiento lento hacia arriba
+                    speedY: -(Math.random() * 0.2 + 0.05), 
                     opacity: Math.random() * 0.5 + 0.1
                 });
             }
 
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'rgba(240, 240, 245,';
-
                 particles.forEach(p => {
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                     ctx.fillStyle = `rgba(240, 240, 245, ${p.opacity})`;
                     ctx.fill();
 
-                    // Mover partícula
                     p.y += p.speedY;
 
-                    // Si se sale de la pantalla por arriba, reaparece abajo
                     if (p.y < 0) {
                         p.y = canvas.height;
                         p.x = Math.random() * canvas.width;
@@ -273,11 +281,12 @@
             animate();
         }
 
-        // Lanzar funciones al cargar la página
         window.onload = () => {
             initCountdown();
             initAmbientParticles();
         };
     </script>
+
+    <script src="assets/countdown.js"></script>
 </body>
 </html>
