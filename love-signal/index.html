@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGNAL // LOVE</title>
+    
+    <link rel="stylesheet" href="../assets/style.css">
+
+    <style>
+        /* ==========================================
+           CONFIGURACIÓN DE COLORES Y VARIABLES
+           ========================================== */
+        :root {
+            --bg-color: #08080c;       
+            --text-main: #f0f0f5;      
+            --text-muted: #66667e;     
+            --heart-color: #ff3344;    /* Rojo neón cinemático */
+            --accent-glow: rgba(255, 51, 68, 0.45); /* Brillo del corazón */
+            --font-family: 'Courier New', Courier, monospace; 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: var(--font-family);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.35;
+        }
+
+        /* ==========================================
+           CONTENEDOR CENTRAL
+           ========================================== */
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInScreen 4s ease-out forwards;
+        }
+
+        /* ==========================================
+           EL CORAZÓN PALPITANTE CON NEÓN GLOW
+           ========================================== */
+        .heart-wrapper {
+            margin-bottom: 50px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .heart {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background-color: var(--heart-color);
+            transform: rotate(-45deg);
+            /* Animación del latido continuo */
+            animation: heartBeat 0.7s infinite alternate cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Efecto de iluminación externa */
+            box-shadow: -5px 5px 30px var(--heart-color), 0px 0px 60px var(--accent-glow);
+        }
+
+        /* Orejas redondas del corazón */
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-color: var(--heart-color);
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -40px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: 40px;
+        }
+
+        /* ==========================================
+           TEXTO DE IMPACTO EMOCIONAL
+           ========================================== */
+        .love-message {
+            font-size: 2.2rem;
+            color: var(--text-main);
+            letter-spacing: 0.25em;
+            font-weight: 300;
+            margin-bottom: 80px;
+            text-transform: lowercase;
+            /* Brillo sutil blanco/rojo en las letras */
+            text-shadow: 0 0 15px rgba(240, 240, 245, 0.4), 0 0 30px var(--accent-glow);
+            animation: pulseText 2s infinite ease-in-out;
+        }
+
+        /* PIE DE PÁGINA / CRÉDITOS */
+        .footer-credits {
+            position: absolute;
+            bottom: -100px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .creator {
+            font-size: 0.65rem;
+            color: #44445c;
+            letter-spacing: 0.2em;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .metadata {
+            font-size: 0.6rem;
+            color: #2e2e3e;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* ==========================================
+           ANIMACIONES LENTAS Y FLUIDAS
+           ========================================== */
+        @keyframes fadeInScreen {
+            0% { opacity: 0; transform: scale(0.97); filter: blur(5px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+        }
+
+        @keyframes heartBeat {
+            0% {
+                transform: rotate(-45deg) scale(0.92);
+                box-shadow: -5px 5px 20px var(--heart-color), 0px 0px 40px var(--accent-glow);
+            }
+            100% {
+                transform: rotate(-45deg) scale(1.12);
+                /* Incrementa el destello con el impacto del latido */
+                box-shadow: -5px 5px 40px var(--heart-color), 0px 0px 80px var(--heart-color);
+            }
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        @media (max-width: 768px) {
+            .love-message {
+                font-size: 1.8rem;
+                letter-spacing: 0.2em;
+            }
+            .heart {
+                width: 70px;
+                height: 70px;
+            }
+            .heart:before, .heart:after {
+                width: 70px;
+                height: 70px;
+            }
+            .heart:before { top: -35px; }
+            .heart:after { left: 35px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="ambientCanvas"></canvas>
+
+    <div class="container">
+        
+        <div class="heart-wrapper">
+            <div class="heart"></div>
+        </div>
+
+        <h1 class="love-message">te amo</h1>
+
+        <div class="footer-credits">
+            <span class="creator">crafted by johnsalchicon</span>
+            <span class="metadata">DÍA ❤ // ECHOS - L2.A1</span>
+        </div>
+
+    </div>
+
+    <script>
+        /* ==========================================
+           POLVO ATMOSFÉRICO EN MOVIMIENTO LENTO
+           ========================================== */
+        function initAmbientParticles() {
+            const canvas = document.getElementById('ambientCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            // Configuración de las partículas flotantes
+            const particleCount = 45; 
+            for(let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.4 + 0.3,
+                    speedY: -(Math.random() * 0.18 + 0.04), // Ascenso casi imperceptible
+                    opacity: Math.random() * 0.4 + 0.1
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    // Tintamos ligeramente las partículas con un reflejo del rojo central
+                    ctx.fillStyle = `rgba(255, 230, 235, ${p.opacity})`;
+                    ctx.fill();
+
+                    p.y += p.speedY;
+
+                    // Reaparecer abajo si salen del campo visual
+                    if (p.y < 0) {
+                        p.y = canvas.height;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        window.onload = () => {
+            initAmbientParticles();
+        };
+    </script>
+</body>
+</html>
