@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,11 +13,11 @@
            CONFIGURACIÓN DE COLORES Y VARIABLES
            ========================================== */
         :root {
-            --bg-color: #08080c;       
+            --bg-color: #050508;       /* Un tono más profundo */
             --text-main: #f0f0f5;      
-            --text-muted: #66667e;     
-            --heart-color: #ff3344;    /* Rojo neón cinemático */
-            --accent-glow: rgba(255, 51, 68, 0.45); /* Brillo del corazón */
+            --text-muted: #55556e;     
+            --heart-color: #ff3344;    
+            --accent-glow: rgba(255, 51, 68, 0.4); 
             --font-family: 'Courier New', Courier, monospace; 
         }
 
@@ -39,19 +40,18 @@
             align-items: center;
         }
 
-        canvas {
+        /* Lienzo único para optimizar el rendimiento de las partículas */
+        #heartCanvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
-            pointer-events: none;
-            opacity: 0.35;
         }
 
         /* ==========================================
-           CONTENEDOR CENTRAL
+           CONTENEDOR CENTRAL (TEXTO E INTERFAZ)
            ========================================== */
         .container {
             position: relative;
@@ -62,79 +62,44 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            animation: fadeInScreen 4s ease-out forwards;
+            height: 100%;
+            width: 100%;
+            pointer-events: none; /* Permite que los clicks pasen al fondo si deseas añadir interactividad */
         }
 
-        /* ==========================================
-           EL CORAZÓN PALPITANTE CON NEÓN GLOW
-           ========================================== */
-        .heart-wrapper {
-            margin-bottom: 50px;
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Espaciador dinámico para el corazón matemático */
+        .heart-spacer {
+            height: 260px; 
+            width: 100%;
         }
 
-        .heart {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            background-color: var(--heart-color);
-            transform: rotate(-45deg);
-            /* Animación del latido continuo */
-            animation: heartBeat 0.7s infinite alternate cubic-bezier(0.25, 0.8, 0.25, 1);
-            /* Efecto de iluminación externa */
-            box-shadow: -5px 5px 30px var(--heart-color), 0px 0px 60px var(--accent-glow);
-        }
-
-        /* Orejas redondas del corazón */
-        .heart:before,
-        .heart:after {
-            content: "";
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background-color: var(--heart-color);
-            border-radius: 50%;
-        }
-
-        .heart:before {
-            top: -40px;
-            left: 0;
-        }
-
-        .heart:after {
-            top: 0;
-            left: 40px;
-        }
-
-        /* ==========================================
-           TEXTO DE IMPACTO EMOCIONAL
-           ========================================== */
         .love-message {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             color: var(--text-main);
-            letter-spacing: 0.25em;
+            letter-spacing: 0.3em;
             font-weight: 300;
-            margin-bottom: 80px;
+            margin-top: 20px;
+            margin-bottom: 40px;
             text-transform: lowercase;
-            /* Brillo sutil blanco/rojo en las letras */
-            text-shadow: 0 0 15px rgba(240, 240, 245, 0.4), 0 0 30px var(--accent-glow);
-            animation: pulseText 2s infinite ease-in-out;
+            text-shadow: 0 0 15px rgba(240, 240, 245, 0.3), 0 0 30px var(--accent-glow);
+            animation: pulseText 2.8s infinite ease-in-out;
+            opacity: 0;
+            animation: fadeInText 4s ease-out 1s forwards, pulseText 2.8s infinite ease-in-out 5s;
         }
 
         /* PIE DE PÁGINA / CRÉDITOS */
         .footer-credits {
             position: absolute;
-            bottom: -100px;
+            bottom: 40px;
             width: 100%;
             text-align: center;
+            opacity: 0;
+            animation: fadeInText 3s ease-out 2s forwards;
         }
 
         .creator {
             font-size: 0.65rem;
-            color: #44445c;
+            color: var(--text-muted);
             letter-spacing: 0.2em;
             display: block;
             margin-bottom: 8px;
@@ -142,34 +107,22 @@
 
         .metadata {
             font-size: 0.6rem;
-            color: #2e2e3e;
+            color: #252535;
             letter-spacing: 0.15em;
             text-transform: uppercase;
         }
 
         /* ==========================================
-           ANIMACIONES LENTAS Y FLUIDAS
+           ANIMACIONES
            ========================================== */
-        @keyframes fadeInScreen {
-            0% { opacity: 0; transform: scale(0.97); filter: blur(5px); }
-            100% { opacity: 1; transform: scale(1); filter: blur(0); }
-        }
-
-        @keyframes heartBeat {
-            0% {
-                transform: rotate(-45deg) scale(0.92);
-                box-shadow: -5px 5px 20px var(--heart-color), 0px 0px 40px var(--accent-glow);
-            }
-            100% {
-                transform: rotate(-45deg) scale(1.12);
-                /* Incrementa el destello con el impacto del latido */
-                box-shadow: -5px 5px 40px var(--heart-color), 0px 0px 80px var(--heart-color);
-            }
+        @keyframes fadeInText {
+            0% { opacity: 0; filter: blur(3px); }
+            100% { opacity: 1; filter: blur(0); }
         }
 
         @keyframes pulseText {
             0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.02); }
+            50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 20px rgba(240, 240, 245, 0.5), 0 0 40px var(--heart-color); }
         }
 
         @media (max-width: 768px) {
@@ -177,93 +130,160 @@
                 font-size: 1.8rem;
                 letter-spacing: 0.2em;
             }
-            .heart {
-                width: 70px;
-                height: 70px;
+            .heart-spacer {
+                height: 200px;
             }
-            .heart:before, .heart:after {
-                width: 70px;
-                height: 70px;
-            }
-            .heart:before { top: -35px; }
-            .heart:after { left: 35px; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="ambientCanvas"></canvas>
+    <canvas id="heartCanvas"></canvas>
 
     <div class="container">
         
-        <div class="heart-wrapper">
-            <div class="heart"></div>
-        </div>
+        <div class="heart-spacer"></div>
 
         <h1 class="love-message">te amo</h1>
 
         <div class="footer-credits">
-            <span class="creator">crafted by johnsalchicon</span>
-            <span class="metadata">DÍA ❤ // ECHOS - L2.A1</span>
+            <span class="creator">CREADO POR JOHNSALCHICHON</span>
+            <span class="metadata"> ❤ //PARA: BLANCA ALMOALLA</span>
         </div>
 
     </div>
 
     <script>
         /* ==========================================
-           POLVO ATMOSFÉRICO EN MOVIMIENTO LENTO
+           MOTOR DE PARTÍCULAS CINEMÁTICAS EN 2D/3D
            ========================================== */
-        function initAmbientParticles() {
-            const canvas = document.getElementById('ambientCanvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
 
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
+        let dataParticles = [];
+        let ambientParticles = [];
+        let heartScale = 1;
+        let beatPhase = 0;
 
-            // Configuración de las partículas flotantes
-            const particleCount = 45; 
-            for(let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: Math.random() * 1.4 + 0.3,
-                    speedY: -(Math.random() * 0.18 + 0.04), // Ascenso casi imperceptible
-                    opacity: Math.random() * 0.4 + 0.1
-                });
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                particles.forEach(p => {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    // Tintamos ligeramente las partículas con un reflejo del rojo central
-                    ctx.fillStyle = `rgba(255, 230, 235, ${p.opacity})`;
-                    ctx.fill();
-
-                    p.y += p.speedY;
-
-                    // Reaparecer abajo si salen del campo visual
-                    if (p.y < 0) {
-                        p.y = canvas.height;
-                        p.x = Math.random() * canvas.width;
-                    }
-                });
-
-                requestAnimationFrame(animate);
-            }
-            animate();
+        // Ecuación matemática paramétrica del corazón
+        function getHeartPoint(t) {
+            return {
+                x: 16 * Math.pow(Math.sin(t), 3),
+                y: -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t))
+            };
         }
 
-        window.onload = () => {
-            initAmbientParticles();
-        };
+        function initLayers() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            dataParticles = [];
+            ambientParticles = [];
+
+            // 1. Generar el corazón de luz de alta densidad (320 partículas inteligentes)
+            const totalHeartParticles = 320;
+            for (let i = 0; i < totalHeartParticles; i++) {
+                const t = (i / totalHeartParticles) * Math.PI * 2;
+                const point = getHeartPoint(t);
+                
+                dataParticles.push({
+                    baseX: point.x,
+                    baseY: point.y,
+                    x: (Math.random() - 0.5) * canvas.width, // Nacen dispersas en el espacio
+                    y: (Math.random() - 0.5) * canvas.height,
+                    size: Math.random() * 1.5 + 0.5,
+                    speed: Math.random() * 0.04 + 0.02,
+                    noiseX: (Math.random() - 0.5) * 4,
+                    noiseY: (Math.random() - 0.5) * 4,
+                    alpha: Math.random() * 0.5 + 0.5
+                });
+            }
+
+            // 2. Generar el polvo ambiental de fondo (45 partículas)
+            for (let i = 0; i < 45; i++) {
+                ambientParticles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.2 + 0.3,
+                    speedY: -(Math.random() * 0.15 + 0.03),
+                    opacity: Math.random() * 0.3 + 0.1
+                });
+            }
+        }
+
+        function drawEngine() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = canvas.width / 2;
+            // Ajusta la altura del corazón dinámicamente según el dispositivo
+            const centerY = canvas.height / 2 - (window.innerWidth < 768 ? 40 : 60);
+            
+            // Factor de escala adaptativo para móviles y escritorio
+            const responsiveScale = window.innerWidth < 768 ? 7 : 11;
+
+            // Lógica del latido cinemático (Simulación matemática de ritmo cardíaco doble)
+            beatPhase += 0.05;
+            let beatFactor = Math.sin(beatPhase * 2.5);
+            if (beatFactor > 0) {
+                heartScale = 1 + (Math.pow(beatFactor, 2) * 0.12);
+            } else {
+                heartScale = 1 + (beatFactor * 0.02);
+            }
+
+            // --- EFECTO INFERIOR: Polvo Atmosférico ---
+            ambientParticles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 225, 230, ${p.opacity})`;
+                ctx.fill();
+
+                p.y += p.speedY;
+                if (p.y < 0) {
+                    p.y = canvas.height;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+
+            // --- EFECTO CENTRAL: Brillo de fondo del núcleo ---
+            let coreGlow = ctx.createRadialGradient(centerX, centerY, 5, centerX, centerY, heartScale * 120);
+            coreGlow.addColorStop(0, 'rgba(255, 51, 68, 0.08)');
+            coreGlow.addColorStop(1, 'rgba(5, 5, 8, 0)');
+            ctx.fillStyle = coreGlow;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // --- EFECTO SUPERIOR: Red de Partículas del Corazón ---
+            dataParticles.forEach(p => {
+                // Posición matemática de destino calculada con el latido
+                const targetX = centerX + p.baseX * responsiveScale * heartScale;
+                const targetY = centerY + p.baseY * responsiveScale * heartScale;
+
+                // Interpolación fluida (Atracción magnética hacia la forma del corazón)
+                p.x += (targetX - p.x) * p.speed;
+                p.y += (targetY - p.y) * p.speed;
+
+                // Micro vibración orgánica independiente por partícula
+                const currentX = p.x + Math.sin(beatPhase + p.noiseX) * 0.8;
+                const currentY = p.y + Math.cos(beatPhase + p.noiseY) * 0.8;
+
+                // Renderizado de la partícula de luz
+                ctx.beginPath();
+                ctx.arc(currentX, currentY, p.size * (heartScale * 0.95), 0, Math.PI * 2);
+                
+                // Variación sutil de brillo durante el impacto del latido
+                const flash = beatFactor > 0.7 ? 0.3 : 0;
+                ctx.fillStyle = `rgba(255, 51, 68, ${Math.min(1, p.alpha + flash)})`;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(drawEngine);
+        }
+
+        // Control de redimensionamiento de pantalla limpio
+        window.addEventListener('resize', initLayers);
+
+        // Inicialización y arranque del motor gráfico
+        initLayers();
+        drawEngine();
     </script>
 </body>
 </html>
