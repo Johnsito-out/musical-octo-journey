@@ -1,4 +1,5 @@
 
+HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -50,7 +51,7 @@
         }
 
         /* ==========================================
-           CONTENEDOR CENTRAL (TEXTO E INTERFAZ)
+           CONTENEDOR CENTRAL (EQUILIBRADO)
            ========================================== */
         .container {
             position: relative;
@@ -66,21 +67,20 @@
             pointer-events: none; 
         }
 
+        /* Espacio para que el corazón matemático respire holgadamente arriba */
         .heart-spacer {
-            height: 240px; 
+            height: 180px; 
             width: 100%;
         }
 
         /* ==========================================
-           TEXTO EVOLUCIONADO: TE AMO
+           TEXTO CORREGIDO: "te amo" CON DISTANCIA
            ========================================== */
         .love-message-container {
-            margin-top: 30px;
-            margin-bottom: 40px;
+            margin-top: 110px; /* Separación crítica para que no toque la punta del corazón */
             display: flex;
             gap: 0.25em;
             opacity: 0;
-            /* Aparece con un fundido cinematográfico lento */
             animation: fadeInText 3.5s ease-out 1.2s forwards;
         }
 
@@ -92,33 +92,31 @@
             display: inline-block;
             position: relative;
             
-            /* Brillo analógico multicapa profundo (Glow Pro) */
             text-shadow: 
                 0 0 8px rgba(255, 255, 255, 0.6),
                 0 0 20px var(--heart-color),
                 0 0 45px var(--accent-glow),
                 0 0 70px rgba(255, 51, 68, 0.2);
 
-            /* Animación de pulsación de luz síncrona con el latido gráfico */
             animation: textPulseGlow 2.8s infinite ease-in-out;
         }
 
-        /* Espaciado para separar las palabras "te" y "amo" */
         .letter-space {
             width: 0.6em;
         }
 
-        /* Pequeño desfase de animación por letra para crear un efecto de onda orgánica */
         .love-letter:nth-child(1) { animation-delay: 0.0s; }
         .love-letter:nth-child(2) { animation-delay: 0.1s; }
         .love-letter:nth-child(4) { animation-delay: 0.2s; }
         .love-letter:nth-child(5) { animation-delay: 0.3s; }
         .love-letter:nth-child(6) { animation-delay: 0.4s; }
 
-        /* PIE DE PÁGINA / CRÉDITOS */
+        /* ==========================================
+           PIE DE PÁGINA: TEXTOS CORREGIDOS SEGÚN LA FOTO
+           ========================================== */
         .footer-credits {
             position: absolute;
-            bottom: 40px;
+            bottom: 45px; /* Subido un poco para que no quede tan pegado al borde físico */
             width: 100%;
             text-align: center;
             opacity: 0;
@@ -130,18 +128,19 @@
             color: var(--text-muted);
             letter-spacing: 0.2em;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            text-transform: lowercase;
         }
 
         .metadata {
             font-size: 0.6rem;
-            color: #222232;
-            letter-spacing: 0.15em;
+            color: #35354a; /* Ajustado el contraste fino para mantener misterio */
+            letter-spacing: 0.18em;
             text-transform: uppercase;
         }
 
         /* ==========================================
-           NUEVAS ANIMACIONES DE TEXTO AVANZADAS
+           ANIMACIONES LENTAS Y FLUIDAS
            ========================================== */
         @keyframes fadeInText {
             0% { opacity: 0; filter: blur(6px); transform: translateY(10px); }
@@ -158,8 +157,7 @@
                     0 0 45px var(--accent-glow);
             }
             50% {
-                transform: scale(1.05);
-                /* En el punto más alto de intensidad se tiñe ligeramente de rosa/rojo brillante */
+                transform: scale(1.04);
                 color: #ffeef0; 
                 text-shadow: 
                     0 0 12px #ffffff,
@@ -171,10 +169,16 @@
 
         @media (max-width: 768px) {
             .love-letter {
-                font-size: 2.4rem;
+                font-size: 2.3rem;
+            }
+            .love-message-container {
+                margin-top: 80px; /* Ajuste orgánico proporcional para smartphones */
             }
             .heart-spacer {
-                height: 180px;
+                height: 140px;
+            }
+            .footer-credits {
+                bottom: 35px;
             }
         }
     </style>
@@ -198,7 +202,7 @@
 
         <div class="footer-credits">
             <span class="creator">creado por johnsalchicon</span>
-            <span class="metadata"> PARA //Blanca almohalla  ❤</span>
+            <span class="metadata">PARA // BLANCA ALMOHALLA ❤</span>
         </div>
 
     </div>
@@ -229,7 +233,7 @@
             dataParticles = [];
             ambientParticles = [];
 
-            const totalHeartParticles = 350; // Incrementado ligeramente para más definición
+            const totalHeartParticles = 350; 
             for (let i = 0; i < totalHeartParticles; i++) {
                 const t = (i / totalHeartParticles) * Math.PI * 2;
                 const point = getHeartPoint(t);
@@ -262,7 +266,9 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2 - (window.innerWidth < 768 ? 50 : 70);
+            
+            // CORRECCIÓN: El centro geométrico Y del corazón se sube sutilmente para separarlo de los textos
+            const centerY = canvas.height / 2 - (window.innerWidth < 768 ? 75 : 105);
             const responsiveScale = window.innerWidth < 768 ? 6.5 : 11;
 
             beatPhase += 0.05;
@@ -273,7 +279,7 @@
                 heartScale = 1 + (beatFactor * 0.02);
             }
 
-            // Polvo Atmosférico
+            // Polvo Atmosférico de fondo
             ambientParticles.forEach(p => {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -287,14 +293,14 @@
                 }
             });
 
-            // Resplandor del Núcleo
+            // Resplandor difuminado del Núcleo
             let coreGlow = ctx.createRadialGradient(centerX, centerY, 5, centerX, centerY, heartScale * 125);
             coreGlow.addColorStop(0, 'rgba(255, 51, 68, 0.09)');
             coreGlow.addColorStop(1, 'rgba(5, 5, 8, 0)');
             ctx.fillStyle = coreGlow;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Red de Partículas Matemáticas
+            // Red de Partículas del corazón matemático
             dataParticles.forEach(p => {
                 const targetX = centerX + p.baseX * responsiveScale * heartScale;
                 const targetY = centerY + p.baseY * responsiveScale * heartScale;
