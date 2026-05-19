@@ -13,11 +13,11 @@
            CONFIGURACIÓN DE COLORES Y VARIABLES
            ========================================== */
         :root {
-            --bg-color: #050508;       /* Un tono más profundo */
-            --text-main: #f0f0f5;      
+            --bg-color: #050508;       
+            --text-main: #ffffff;      
             --text-muted: #55556e;     
             --heart-color: #ff3344;    
-            --accent-glow: rgba(255, 51, 68, 0.4); 
+            --accent-glow: rgba(255, 51, 68, 0.5); 
             --font-family: 'Courier New', Courier, monospace; 
         }
 
@@ -40,7 +40,6 @@
             align-items: center;
         }
 
-        /* Lienzo único para optimizar el rendimiento de las partículas */
         #heartCanvas {
             position: absolute;
             top: 0;
@@ -64,28 +63,57 @@
             justify-content: center;
             height: 100%;
             width: 100%;
-            pointer-events: none; /* Permite que los clicks pasen al fondo si deseas añadir interactividad */
+            pointer-events: none; 
         }
 
-        /* Espaciador dinámico para el corazón matemático */
         .heart-spacer {
-            height: 260px; 
+            height: 240px; 
             width: 100%;
         }
 
-        .love-message {
-            font-size: 2.4rem;
-            color: var(--text-main);
-            letter-spacing: 0.3em;
-            font-weight: 300;
-            margin-top: 20px;
+        /* ==========================================
+           TEXTO EVOLUCIONADO: TE AMO
+           ========================================== */
+        .love-message-container {
+            margin-top: 30px;
             margin-bottom: 40px;
-            text-transform: lowercase;
-            text-shadow: 0 0 15px rgba(240, 240, 245, 0.3), 0 0 30px var(--accent-glow);
-            animation: pulseText 2.8s infinite ease-in-out;
+            display: flex;
+            gap: 0.25em;
             opacity: 0;
-            animation: fadeInText 4s ease-out 1s forwards, pulseText 2.8s infinite ease-in-out 5s;
+            /* Aparece con un fundido cinematográfico lento */
+            animation: fadeInText 3.5s ease-out 1.2s forwards;
         }
+
+        .love-letter {
+            font-size: 3.2rem;
+            color: var(--text-main);
+            font-weight: 300;
+            text-transform: lowercase;
+            display: inline-block;
+            position: relative;
+            
+            /* Brillo analógico multicapa profundo (Glow Pro) */
+            text-shadow: 
+                0 0 8px rgba(255, 255, 255, 0.6),
+                0 0 20px var(--heart-color),
+                0 0 45px var(--accent-glow),
+                0 0 70px rgba(255, 51, 68, 0.2);
+
+            /* Animación de pulsación de luz síncrona con el latido gráfico */
+            animation: textPulseGlow 2.8s infinite ease-in-out;
+        }
+
+        /* Espaciado para separar las palabras "te" y "amo" */
+        .letter-space {
+            width: 0.6em;
+        }
+
+        /* Pequeño desfase de animación por letra para crear un efecto de onda orgánica */
+        .love-letter:nth-child(1) { animation-delay: 0.0s; }
+        .love-letter:nth-child(2) { animation-delay: 0.1s; }
+        .love-letter:nth-child(4) { animation-delay: 0.2s; }
+        .love-letter:nth-child(5) { animation-delay: 0.3s; }
+        .love-letter:nth-child(6) { animation-delay: 0.4s; }
 
         /* PIE DE PÁGINA / CRÉDITOS */
         .footer-credits {
@@ -94,7 +122,7 @@
             width: 100%;
             text-align: center;
             opacity: 0;
-            animation: fadeInText 3s ease-out 2s forwards;
+            animation: fadeInText 3s ease-out 2.5s forwards;
         }
 
         .creator {
@@ -107,31 +135,46 @@
 
         .metadata {
             font-size: 0.6rem;
-            color: #252535;
+            color: #222232;
             letter-spacing: 0.15em;
             text-transform: uppercase;
         }
 
         /* ==========================================
-           ANIMACIONES
+           NUEVAS ANIMACIONES DE TEXTO AVANZADAS
            ========================================== */
         @keyframes fadeInText {
-            0% { opacity: 0; filter: blur(3px); }
-            100% { opacity: 1; filter: blur(0); }
+            0% { opacity: 0; filter: blur(6px); transform: translateY(10px); }
+            100% { opacity: 1; filter: blur(0); transform: translateY(0); }
         }
 
-        @keyframes pulseText {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 20px rgba(240, 240, 245, 0.5), 0 0 40px var(--heart-color); }
+        @keyframes textPulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                color: #ffffff;
+                text-shadow: 
+                    0 0 8px rgba(255, 255, 255, 0.6),
+                    0 0 20px var(--heart-color),
+                    0 0 45px var(--accent-glow);
+            }
+            50% {
+                transform: scale(1.05);
+                /* En el punto más alto de intensidad se tiñe ligeramente de rosa/rojo brillante */
+                color: #ffeef0; 
+                text-shadow: 
+                    0 0 12px #ffffff,
+                    0 0 30px #ff001e,
+                    0 0 60px var(--heart-color),
+                    0 0 100px rgba(255, 51, 68, 0.6);
+            }
         }
 
         @media (max-width: 768px) {
-            .love-message {
-                font-size: 1.8rem;
-                letter-spacing: 0.2em;
+            .love-letter {
+                font-size: 2.4rem;
             }
             .heart-spacer {
-                height: 200px;
+                height: 180px;
             }
         }
     </style>
@@ -144,18 +187,25 @@
         
         <div class="heart-spacer"></div>
 
-        <h1 class="love-message">te amo</h1>
+        <div class="love-message-container">
+            <span class="love-letter">t</span>
+            <span class="love-letter">e</span>
+            <div class="letter-space"></div>
+            <span class="love-letter">a</span>
+            <span class="love-letter">m</span>
+            <span class="love-letter">o</span>
+        </div>
 
         <div class="footer-credits">
-            <span class="creator">CREADO POR JOHNSALCHICHON</span>
-            <span class="metadata"> ❤ //PARA: BLANCA ALMOALLA</span>
+            <span class="creator">creado por johnsalchicon</span>
+            <span class="metadata"> PARA //Blanca almohalla  ❤</span>
         </div>
 
     </div>
 
     <script>
         /* ==========================================
-           MOTOR DE PARTÍCULAS CINEMÁTICAS EN 2D/3D
+           MOTOR DE PARTÍCULAS CINEMÁTICAS
            ========================================== */
         const canvas = document.getElementById('heartCanvas');
         const ctx = canvas.getContext('2d');
@@ -165,7 +215,6 @@
         let heartScale = 1;
         let beatPhase = 0;
 
-        // Ecuación matemática paramétrica del corazón
         function getHeartPoint(t) {
             return {
                 x: 16 * Math.pow(Math.sin(t), 3),
@@ -180,8 +229,7 @@
             dataParticles = [];
             ambientParticles = [];
 
-            // 1. Generar el corazón de luz de alta densidad (320 partículas inteligentes)
-            const totalHeartParticles = 320;
+            const totalHeartParticles = 350; // Incrementado ligeramente para más definición
             for (let i = 0; i < totalHeartParticles; i++) {
                 const t = (i / totalHeartParticles) * Math.PI * 2;
                 const point = getHeartPoint(t);
@@ -189,9 +237,9 @@
                 dataParticles.push({
                     baseX: point.x,
                     baseY: point.y,
-                    x: (Math.random() - 0.5) * canvas.width, // Nacen dispersas en el espacio
+                    x: (Math.random() - 0.5) * canvas.width, 
                     y: (Math.random() - 0.5) * canvas.height,
-                    size: Math.random() * 1.5 + 0.5,
+                    size: Math.random() * 1.6 + 0.4,
                     speed: Math.random() * 0.04 + 0.02,
                     noiseX: (Math.random() - 0.5) * 4,
                     noiseY: (Math.random() - 0.5) * 4,
@@ -199,7 +247,6 @@
                 });
             }
 
-            // 2. Generar el polvo ambiental de fondo (45 partículas)
             for (let i = 0; i < 45; i++) {
                 ambientParticles.push({
                     x: Math.random() * canvas.width,
@@ -215,13 +262,9 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             const centerX = canvas.width / 2;
-            // Ajusta la altura del corazón dinámicamente según el dispositivo
-            const centerY = canvas.height / 2 - (window.innerWidth < 768 ? 40 : 60);
-            
-            // Factor de escala adaptativo para móviles y escritorio
-            const responsiveScale = window.innerWidth < 768 ? 7 : 11;
+            const centerY = canvas.height / 2 - (window.innerWidth < 768 ? 50 : 70);
+            const responsiveScale = window.innerWidth < 768 ? 6.5 : 11;
 
-            // Lógica del latido cinemático (Simulación matemática de ritmo cardíaco doble)
             beatPhase += 0.05;
             let beatFactor = Math.sin(beatPhase * 2.5);
             if (beatFactor > 0) {
@@ -230,7 +273,7 @@
                 heartScale = 1 + (beatFactor * 0.02);
             }
 
-            // --- EFECTO INFERIOR: Polvo Atmosférico ---
+            // Polvo Atmosférico
             ambientParticles.forEach(p => {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -244,32 +287,27 @@
                 }
             });
 
-            // --- EFECTO CENTRAL: Brillo de fondo del núcleo ---
-            let coreGlow = ctx.createRadialGradient(centerX, centerY, 5, centerX, centerY, heartScale * 120);
-            coreGlow.addColorStop(0, 'rgba(255, 51, 68, 0.08)');
+            // Resplandor del Núcleo
+            let coreGlow = ctx.createRadialGradient(centerX, centerY, 5, centerX, centerY, heartScale * 125);
+            coreGlow.addColorStop(0, 'rgba(255, 51, 68, 0.09)');
             coreGlow.addColorStop(1, 'rgba(5, 5, 8, 0)');
             ctx.fillStyle = coreGlow;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // --- EFECTO SUPERIOR: Red de Partículas del Corazón ---
+            // Red de Partículas Matemáticas
             dataParticles.forEach(p => {
-                // Posición matemática de destino calculada con el latido
                 const targetX = centerX + p.baseX * responsiveScale * heartScale;
                 const targetY = centerY + p.baseY * responsiveScale * heartScale;
 
-                // Interpolación fluida (Atracción magnética hacia la forma del corazón)
                 p.x += (targetX - p.x) * p.speed;
                 p.y += (targetY - p.y) * p.speed;
 
-                // Micro vibración orgánica independiente por partícula
                 const currentX = p.x + Math.sin(beatPhase + p.noiseX) * 0.8;
                 const currentY = p.y + Math.cos(beatPhase + p.noiseY) * 0.8;
 
-                // Renderizado de la partícula de luz
                 ctx.beginPath();
                 ctx.arc(currentX, currentY, p.size * (heartScale * 0.95), 0, Math.PI * 2);
                 
-                // Variación sutil de brillo durante el impacto del latido
                 const flash = beatFactor > 0.7 ? 0.3 : 0;
                 ctx.fillStyle = `rgba(255, 51, 68, ${Math.min(1, p.alpha + flash)})`;
                 ctx.fill();
@@ -278,10 +316,7 @@
             requestAnimationFrame(drawEngine);
         }
 
-        // Control de redimensionamiento de pantalla limpio
         window.addEventListener('resize', initLayers);
-
-        // Inicialización y arranque del motor gráfico
         initLayers();
         drawEngine();
     </script>
