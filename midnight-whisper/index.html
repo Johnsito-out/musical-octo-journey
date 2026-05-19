@@ -1,0 +1,535 @@
+HTML
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Día 2 // hidden-orbit</title>
+    
+    <link rel="stylesheet" href="../assets/style.css">
+
+    <style>
+        /* ==========================================
+           CONFIGURACIÓN DE COLORES Y VARIABLES
+           ========================================== */
+        :root {
+            --bg-color: #08080c;       
+            --text-main: #f0f0f5;      
+            --text-muted: #66667e;     
+            --accent-glow: rgba(168, 85, 247, 0.35); /* Brillo Púrpura Orbitario */
+            --font-family: 'Courier New', Courier, monospace; 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: var(--font-family);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.45;
+        }
+
+        /* ==========================================
+           INTERFAZ DE AUDIO MINIMALISTA
+           ========================================== */
+        .audio-control {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 10;
+        }
+
+        .audio-btn {
+            background: transparent;
+            border: 1px solid rgba(102, 102, 126, 0.4);
+            color: var(--text-muted);
+            font-family: var(--font-family);
+            font-size: 0.65rem;
+            padding: 8px 16px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .audio-btn:hover, .audio-btn.playing {
+            border-color: var(--text-main);
+            color: var(--text-main);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* ==========================================
+           ESTRUCTURA DE TRANSICIONES CINEMATOGRÁFICAS
+           ========================================== */
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 30px;
+            max-width: 620px;
+            width: 100%;
+            animation: fadeInScreen 4s ease-out forwards;
+        }
+
+        .fade-step {
+            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-step.hidden {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+        }
+
+        .fade-step.init-hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        .fade-step.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        /* NARRATIVA Y TEXTOS */
+        .narrative-text {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            line-height: 1.9;
+            letter-spacing: 0.15em;
+            margin-bottom: 35px;
+            font-weight: 300;
+            text-shadow: 0 0 12px rgba(240, 240, 245, 0.25);
+        }
+
+        .clue-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            letter-spacing: 0.12em;
+            margin-bottom: 50px;
+            font-style: italic;
+        }
+
+        .interaction-box {
+            margin-top: 20px;
+        }
+
+        .question-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            display: block;
+            margin-bottom: 30px;
+            text-transform: lowercase;
+        }
+
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .custom-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--text-muted);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            font-size: 1rem;
+            padding: 10px;
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+            outline: none;
+            letter-spacing: 0.1em;
+            transition: border-color 0.6s, box-shadow 0.6s;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .custom-input:focus {
+            border-bottom: 1px solid var(--text-main);
+            box-shadow: 0 2px 12px rgba(240, 240, 245, 0.08);
+        }
+
+        .submit-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            font-family: var(--font-family);
+            font-size: 0.75rem;
+            padding: 11px 28px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.6s ease;
+        }
+
+        .submit-btn:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* CUENTA REGRESIVA Y SECCIÓN FINAL */
+        .countdown-box {
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .timer {
+            font-size: 1.9rem;
+            color: var(--text-main);
+            letter-spacing: 0.25em;
+            font-weight: bold;
+            text-shadow: 0 0 18px var(--accent-glow);
+        }
+
+        .final-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            letter-spacing: 0.15em;
+            margin-top: 40px;
+            animation: pulseFinal 5s infinite ease-in-out;
+        }
+
+        /* ELEMENTO CENTRAL ADICIONAL (SÍMBOLO EN ÓRBITA) */
+        .orbit-icon {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-top: 50px;
+            display: inline-block;
+            animation: spinOrbit 20s linear infinite;
+            text-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* ANIMACIONES CSS */
+        @keyframes fadeInScreen {
+            0% { opacity: 0; transform: scale(0.98); filter: blur(4px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+        }
+
+        @keyframes spinOrbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseFinal {
+            0%, 100% { opacity: 0.4; color: var(--text-muted); }
+            50% { opacity: 0.8; color: rgba(240, 240, 245, 0.5); }
+        }
+
+        @media (max-width: 768px) {
+            .narrative-text { font-size: 0.95rem; line-height: 1.8; }
+            .clue-text { font-size: 0.8rem; }
+            .timer { font-size: 1.6rem; }
+            .custom-input { width: 90%; }
+            .audio-control { top: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="audio-control">
+        <button id="audioBtn" class="audio-btn">activar sonido</button>
+    </div>
+
+    <canvas id="orbitCanvas"></canvas>
+
+    <div class="container">
+        
+        <div id="step-interaction" class="fade-step">
+            <p class="narrative-text">
+                A veces las señales importantes no aparecen…<br>
+                hasta que alguien aprende a mirar distinto.
+            </p>
+            
+            <p class="clue-text">
+                Hay recuerdos que siguen orbitando incluso cuando creemos haberlos dejado atrás.
+            </p>
+
+            <div class="interaction-box">
+                <span class="question-label">¿Qué lugar te hace pensar en mí sin razón?</span>
+                <div class="input-wrapper">
+                    <input type="text" id="answerInput" class="custom-input" placeholder="..." autocomplete="off" spellcheck="false">
+                    <button id="submitBtn" class="submit-btn">Aceptar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-countdown" class="fade-step init-hidden hidden">
+            <p class="narrative-text">
+                Interesante…<br>
+                tal vez ese lugar también te estaba esperando.
+            </p>
+
+            <div class="countdown-box">
+                <span class="countdown-label">Faltan 24 horas para la siguiente señal</span>
+                <div id="countdown" class="timer">24:00:00</div>
+            </div>
+
+            <p class="final-text">
+                Todavía no entiendes hacia dónde va todo esto…<br>
+                pero ya empezaste el camino.
+            </p>
+
+            <div class="orbit-icon">◌</div>
+        </div>
+
+    </div>
+
+    <script>
+        /* ==========================================
+           SISTEMA DE CUENTA REGRESIVA PERSISTENTE (24H)
+           ========================================== */
+        const COUNTDOWN_DURATION = 24 * 60 * 60 * 1000; 
+
+        const stepInteraction = document.getElementById('step-interaction');
+        const stepCountdown = document.getElementById('step-countdown');
+        const answerInput = document.getElementById('answerInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const timerElement = document.getElementById('countdown');
+
+        // Comprobación inicial de estado guardado en LocalStorage
+        let startTime = localStorage.getItem('dia2_start_time');
+
+        if (startTime) {
+            showCountdownLayout();
+            startTimer(startTime);
+        } else {
+            submitBtn.addEventListener('click', processAnswer);
+            answerInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') processAnswer();
+            });
+        }
+
+        function processAnswer() {
+            if (answerInput.value.trim() === "") return; 
+
+            const now = new Date().getTime();
+            // Guarda tanto el momento de inicio como el texto ingresado
+            localStorage.setItem('dia2_start_time', now);
+            localStorage.setItem('dia2_user_answer', answerInput.value.trim());
+
+            stepInteraction.classList.add('hidden');
+            
+            setTimeout(() => {
+                stepInteraction.style.display = 'none';
+                showCountdownLayout();
+                startTimer(now);
+            }, 2000); // Transición cinematográfica lenta
+        }
+
+        function showCountdownLayout() {
+            stepInteraction.style.display = 'none';
+            stepCountdown.classList.remove('hidden', 'init-hidden');
+            stepCountdown.classList.add('visible');
+        }
+
+        function startTimer(time) {
+            const targetTime = parseInt(time, 10) + COUNTDOWN_DURATION;
+
+            function updateTimer() {
+                const currentNow = new Date().getTime();
+                const distance = targetTime - currentNow;
+
+                if (distance <= 0) {
+                    clearInterval(intervalId);
+                    timerElement.innerHTML = "00:00:00";
+                    timerElement.style.color = "var(--text-muted)";
+                    return;
+                }
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                const formattedHours = String(hours).padStart(2, '0');
+                const formattedMinutes = String(minutes).padStart(2, '0');
+                const formattedSeconds = String(seconds).padStart(2, '0');
+
+                timerElement.innerHTML = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+            }
+
+            updateTimer();
+            const intervalId = setInterval(updateTimer, 1000);
+        }
+
+        /* ==========================================
+           MÚSICA AMBIENTAL GENERATIVA (SINTETIZADA)
+           ========================================== */
+        const audioBtn = document.getElementById('audioBtn');
+        let audioCtx = null;
+        let isPlaying = false;
+        let ambientInterval = null;
+
+        audioBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                initAmbientAudio();
+                audioBtn.textContent = "silenciar";
+                audioBtn.classList.add('playing');
+                isPlaying = true;
+            } else {
+                if (audioCtx) audioCtx.close();
+                clearInterval(ambientInterval);
+                audioBtn.textContent = "activar sonido";
+                audioBtn.classList.remove('playing');
+                isPlaying = false;
+            }
+        });
+
+        function initAmbientAudio() {
+            // Crea contexto nativo de audio
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Filtro maestro para opacar el sonido y darle misterio
+            const lowpass = audioCtx.createBiquadFilter();
+            lowpass.type = "lowpass";
+            lowpass.frequency.setValueAtTime(350, audioCtx.currentTime);
+
+            // Control de volumen maestro
+            const masterGain = audioCtx.createGain();
+            masterGain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+
+            lowpass.connect(masterGain);
+            masterGain.connect(audioCtx.destination);
+
+            // Notas lentas y profundas en escala menor (A emocional / melancólica)
+            const baseNotes = [110.00, 130.81, 146.83, 164.81, 196.00]; 
+
+            function playSoftTone() {
+                if (!audioCtx || audioCtx.state === 'suspended') return;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                // Tipo de onda suave
+                osc.type = "sine";
+                // Elige nota aleatoria de la escala
+                const randomPitch = baseNotes[Math.floor(Math.random() * baseNotes.length)];
+                osc.frequency.setValueAtTime(randomPitch, audioCtx.currentTime);
+
+                // Ataque y desvanecimiento muy lento (Estilo Pad cinematográfico)
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.6, audioCtx.currentTime + 3);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 8);
+
+                osc.connect(gain);
+                gain.connect(lowpass);
+
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 8);
+            }
+
+            // Lanza el primer acorde y programa el ciclo infinito
+            playSoftTone();
+            ambientInterval = setInterval(playSoftTone, 4500);
+        }
+
+        /* ==========================================
+           POLVO EN ÓRBITA CIRCULAR (CANVAS)
+           ========================================== */
+        function initOrbitParticles() {
+            const canvas = document.getElementById('orbitCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    // Centro de rotación
+                    angle: Math.random() * Math.PI * 2,
+                    radius: Math.random() * 350 + 40, 
+                    speed: (Math.random() * 0.0015 + 0.0003) * (Math.random() > 0.5 ? 1 : -1),
+                    size: Math.random() * 1.3 + 0.3,
+                    opacity: Math.random() * 0.6 + 0.1,
+                    pulseSpeed: Math.random() * 0.02 + 0.005,
+                    pulseFactor: Math.random()
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+
+                particles.forEach(p => {
+                    p.angle += p.speed;
+                    p.pulseFactor += p.pulseSpeed;
+
+                    // Posición calculada en base a órbita circular tridimensional simulada
+                    const x = centerX + Math.cos(p.angle) * p.radius;
+                    const y = centerY + Math.sin(p.angle) * (p.radius * 0.65); // Elíptica plana
+
+                    // Variación sutil de opacidad para destellos espontáneos
+                    const currentOpacity = p.opacity + Math.sin(p.pulseFactor) * 0.15;
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(240, 240, 245, ${Math.max(0.05, Math.min(currentOpacity, 0.8))})`;
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        window.onload = () => {
+            initOrbitParticles();
+        };
+    </script>
+
+    <script src="../assets/countdown.js"></script>
+</body>
+</html>
